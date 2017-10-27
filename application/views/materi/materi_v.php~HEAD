@@ -1,0 +1,37 @@
+<?php 
+$status_pengguna = $this->session->userdata('status_pengguna');
+$kode_kelas = $this->uri->segment(3);
+if($status_pengguna == "dosen")
+    { 
+?>
+    	<p>
+            <?php echo anchor('materi/tambah/'.$kode_kelas.'', '<i class="icon-plus pull-right"></i> Tambah Materi', array('class' => 'btn btn-success btn-block')); ?>
+    	</p>
+<?php } //end if dosen ?>
+<div class="row">
+<?php
+foreach ($query_materi as $row_materi){
+    $file_materi = $row_materi->file_materi;
+?>
+<div class="col-lg-6">
+    <section class="panel">
+        <header class="panel-heading"><?=$row_materi->nama_materi?></header> 
+        <div class="clearfix m-t-lg m-b-lg padder text-ellipsis">
+            <?=$row_materi->isi_materi?>
+        </div> 
+        <footer class="panel-footer bg-light lt">
+            <span class="text-muted"><i class="icon-time"></i> <?=$row_materi->datecreated?></span>
+            <?php
+                if(!empty($file_materi)){
+                    echo anchor('materi/download/'.$row_materi->id_materi.'', '<i class="icon-cloud-download"></i> Download ', array('class' => '')); 
+                }
+                if($status_pengguna == "dosen")
+                {
+                    echo anchor('materi/ubah/'.$row_materi->id_materi.'', '<i class="icon-edit"></i> Edit ', array('class' => '')); 
+                } 
+            ?>
+        </footer> 
+    </section>
+</div>
+<?php } //end foreach ?>
+</div>
